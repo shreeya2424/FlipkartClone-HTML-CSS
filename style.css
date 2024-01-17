@@ -1,0 +1,361 @@
+/* <!-- final_new_webpage --> */
+*{
+    margin: 0;
+    padding: 0;
+    border: border-box;
+}
+body{
+    background-color: rgb(230, 229, 229);
+    font-family: Arial, Helvetica, sans-serif;
+}
+.click:hover{
+    border: 2px solid black;
+    border-radius: 5px;
+    }
+.navbar{
+    background-color:white;
+    display: flex;
+    width: 100%;
+    height: 66px;
+    justify-content: space-evenly;
+    align-items: center;
+    position: fixed;
+    margin-top: 0;
+    padding-top: 0;
+    z-index: 10;
+}
+#logo{
+    height: 56 px;
+    width: 166px ;
+
+}
+#searchbar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 500px;
+    background-color:  rgb(230, 229, 229);
+    border-radius: 5px;
+}
+#search_logo{
+    font-size: 22px;
+    margin-right: 10px;
+color: rgb(7, 7, 116);
+}
+#search_area{
+    font-size: 18px;
+    background-color: rgb(230, 229, 229);
+    width: 450px;
+    height: 40px;
+    border: none;
+}
+/* ------------------------------------------- */
+#login_box{
+    height:40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#login_logo{
+display: inline;
+font-size: 18px;
+margin-right: 8px;
+color: rgb(7, 7, 116);
+
+}
+#login_box a{
+    font-size: 16px;
+    text-decoration: none;
+}
+/* ------------------------------------------------ */
+#cart_box{
+    height:40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#cart_logo{
+display: inline;
+font-size: 18px;
+margin-right: 8px;
+color: rgb(7, 7, 116);
+
+}
+#cart_box a{
+    font-size: 16px;
+    text-decoration: none;
+
+}
+/* ----------------------------------------------------- */
+#seller_box{
+    height:40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#seller_logo{
+display: inline;
+font-size: 18px;
+margin-right: 8px;
+color: rgb(7, 7, 116);
+
+}
+#seller_box a{
+    font-size: 16px;
+    text-decoration: none;
+}
+/* ----------------------------------------------- */
+#other_box{
+    height: 40px;
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#other_logo{
+    font-size: 24px;
+    margin-right: 3px;
+}
+#other_ops{
+    color: rgb(7, 7, 116);
+    font-size: 18px;
+    height: 20px;
+    width: 20px;
+}
+#idk{
+    height: 66px;
+    width: 100%;
+}
+/* ============================================================== */
+#tnc{
+    height: 100px;
+    width: 98%;
+    margin-top: 14px;
+    margin-left: 1%;
+}
+#tncimg{
+    height: 100%;
+    width: 100%;
+}
+#deals{
+    height: 210px;
+    width: 98%;
+    margin-top: 14px;
+    margin-left: 1%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+#deals a{
+    height: 100%;
+    width: 32%;
+    margin-right: 5px;
+}
+.dealsimg{
+    height: 100%;
+    width: 100%;
+}
+/* ======================================================================= */
+#products{
+    margin-top: 8px;
+    height: 110px;
+    padding: 10px;
+    margin-left: 1%;
+    width: 97%;
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    
+}
+.box{
+    padding: 20px;
+}
+.box a{
+    text-decoration: none;
+color: black;
+font-size: 14px;
+text-align: center;
+font-weight: 600;
+}
+/* ======================================================================== */
+#hero{
+    margin-top: 14px;
+    height: 200px;
+    margin-left: 1%;
+    width: 98%;
+    background-color: white;
+}
+#hero_img{
+    height: 100%;
+    width: 100%;
+}
+/* ========================================================================= */
+.product_specials{
+    margin-top: 14px;
+    height: 320px;
+    margin-left: 1%;
+    width: 98%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+}
+.product_specials a{
+    color: black;
+}
+.heading{
+    font-size: 20px;
+    font-weight: 600;
+    /* margin: 25px; */
+    padding: 18px 12px 16px 12px;
+    text-decoration: none;
+}
+.items{
+    height: 75%;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.items_box{
+    height: 100%;
+    width: 190px;
+    border: 1.5px solid rgb(230, 229, 229);
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    text-decoration: none;
+}
+.items_box_img{
+    height: 80%;
+    width: 86%;
+}
+.images:hover{
+    transform: scale(1.1);
+}
+/* =========================================================idk bhai */
+#sqbox_product_specials{
+    height: 520px;
+    width: 98%;
+    margin-top: 14px;
+    margin-left: 1%;
+    display: flex;
+    justify-content: space-evenly;
+    align-content: center;
+}
+.sqbox_box{
+    height: 100%;
+    width: 32.5%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    /* flex-wrap: wrap; */
+}
+.idkbox{
+    width: 80%;
+    height: 65%;
+    display: flex;
+    flex-wrap: wrap;
+}
+.sq_items_box{
+    /* padding: 10px; */
+    margin: 5px;
+height: 50%;
+width: 50%;
+/* display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column; */
+border: 1.5px solid rgb(230, 229, 229);
+border-radius: 6px;
+}
+.sq_items_box_img{
+height: 65%;
+width: 75%;
+}
+
+#addv{
+    height: 100%;
+    width: 100%;
+    border: 2px solid #242529;
+}
+/* ========================================================================================================== */
+footer{
+    color: white;
+    height: 310px;
+    width: 100%;
+    margin-top: 20px;
+    background-color: #242529;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-evenly; */
+    align-items: center;
+    font-size: 13px;
+}
+footer a{
+    text-decoration: none;
+    color: white;
+}
+footer a:hover{
+    text-decoration: underline;
+}
+footer ul{
+    margin-top: 7px;
+}
+footer li{
+    list-style: none;
+}
+#upper_footer{
+width: 100%;
+height: 85%;
+display: flex;
+align-items: center;
+}
+.footer_col{
+    padding: 20px;
+    height: 100%;
+    width: 12.5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.footer_col_contact{
+    padding: 20px;
+    height: 100%;
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#footer_col_head{
+    color: rgb(178, 191, 191);
+    font-size: 15px;
+}
+.for_line{
+    border: 0.7px soild azure;
+}
+/* \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ */
+#lower_footer{
+width: 100%;
+height: 15%;
+display: flex;
+justify-content: space-evenly;
+align-items: center;
+border-top: 0.1px solid rgb(219, 218, 218);
+font-size: 14px;
+}
+#lower_footer a{
+    text-decoration: none;
+    color: white;
+}
+.flogo{
+    color: orange;
+    margin-right: 3px;
+}
