@@ -1,0 +1,314 @@
+import cv2
+import numpy as np
+
+img = cv2.imread('sunflower.jpg', 0)
+edges = cv2.Canny(img, 50, 150)
+lines = cv2.HoughLines(edges, 1, np.pi / 180, 100)
+
+# Drawing detected line
+for line in lines:
+    rho, theta = line[0]
+    a, b = np.cos(theta), np.sin(theta)
+    x0, y0 = a * rho, b * rho
+    x1 = int(x0 + 1000 * (-b))
+    y1 = int(y0 + 1000 * (a))
+    x2 = int(x0 - 1000 * (-b))
+    y2 = int(y0 - 1000 * (a))
+    cv2.line(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
+cv2.imshow('Detected Lines', img)
+cv2.waitKey(0)
+
+  img = cv2.imread('sunflower.jpg', 0)
+img_blur = cv2.medianBlur(img, 5)
+
+
+circles = cv2.HoughCircles(img_blur, cv2.HOUGH_GRADIENT, dp=1, minDist=20,
+                           param1=50, param2=30, minRadius=0, maxRadius=0)
+
+# Drawing detected circles
+if circles is not None:
+    circles = np.uint16(np.around(circles))
+    for i in circles[0, :]:
+        center = (i[0], i[1])
+        # circle center
+        cv2.circle(img, center, 1, (0, 100, 100), 3)
+        # circle outline
+        radius = i[2]
+        cv2.circle(img, center, radius, (255, 0, 255), 3)
+
+cv2.imshow('Detected Circles', img)
+cv2.waitKey(0)
+
+  ========================================================================================================================
+
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+import cv2
+from scipy import signal
+
+##Blurring, Edge, Sharpening:-
+
+
+im = plt.imread('flower.webp')[:,:,:3]
+
+imGray = cv2.cvtColor(im,cv2.COLOR_RGB2GRAY)
+
+smoothingMask = np.ones((15,15))/225
+
+imBlurred = signal.convolve2d(imGray,smoothingMask, boundary='symm',mode='same')
+
+fig,(ax1,ax2) = plt.subplots(1,2,figsize=(10,15))
+ax1.imshow(imGray,cmap='gray')
+ax2.imshow(imBlurred,cmap='gray')
+
+xMask = np.array([[-1,0,1],[-1,0,1],[-1,0,1]])
+yMask = xMask.T.copy()
+
+fx = signal.convolve2d(imGray,xMask,boundary='symm',mode='same')
+fy = signal.convolve2d(imGray,yMask,boundary='symm',mode='same')
+
+fx.shape
+
+imGray.shape
+
+Gm = (fx**2 + fy**2)**0.5
+
+plt.imshow(Gm,cmap = 'gray')
+
+th = Gm.max()-4*Gm.std()
+
+E = Gm>th
+plt.imshow(Gm>0.1,cmap = 'gray')
+
+imSharped = imBlurred + 0.5*Gm
+
+fig,(ax1,ax2) = plt.subplots(1,2,figsize=(10,15))
+ax1.imshow(imBlurred,cmap='gray')
+ax2.imshow(imSharped,cmap = 'gray')
+
+Canny Edge Detection
+
+
+import cv2
+import matplotlib.pyplot as plt
+import numpy as np
+
+imPth = r'flower.webp'
+img = plt.imread(imPth)
+
+plt.imshow(img,cmap='gray')
+
+E = cv2.Canny(img,150,250)
+
+plt.subplot(121)
+plt.imshow(img,cmap='gray')
+plt.axis('off')
+plt.subplot(122)
+plt.imshow(E,cmap='gray')
+plt.axis('off')
+plt.show()
+
+
+x = 0
+y = -1
+sigma = 1
+v = (1/(2*np.pi*(sigma**2)))*np.exp(-(x**2 + y**2)/(2*(sigma**2)))
+v
+
+def f_getGaussianFilter(s,sigma):
+    maxX = s//2
+    minX = -maxX
+    minY = minX
+    maxY = maxX
+    G = np.zeros((s,s))
+    for x in range(minX,maxX+1):
+        for y in range(minY,maxY+1):
+            v = (1/(2*np.pi*(sigma**2)))*np.exp(-(x**2 + y**2)/(2*(sigma**2)))
+            G[x-minX,y-minY] = v
+    return G
+
+G = f_getGaussianFilter(11,2)
+np.sum(G)
+
+
+
+
+Gaussian Filter Smoothing Implementation
+
+G = f_getGaussianFilter(3,0.5)
+img_S = cv2.filter2D(img,-1,G)
+plt.subplot(121)
+plt.imshow(img,cmap='gray')
+plt.axis('off')
+plt.subplot(122)
+plt.imshow(img_S,cmap='gray')
+plt.axis('off')
+plt.show()
+
+Image Gradients Implementation
+
+img_S = img_S[:,:,0]
+mask_x = np.zeros((2,1))
+mask_x[0] = -1
+mask_x[1] = 1
+mask_x
+
+img_S = np.float64(img_S)
+Ix = cv2.filter2D(img_S,-1,mask_x)
+mask_y = mask_x.T
+Iy = cv2.filter2D(img_S,-1,mask_y)
+
+
+plt.subplot(121)
+plt.imshow(Ix,cmap='gray')
+plt.title('X-derivative')
+plt.axis('off')
+plt.subplot(122)
+plt.imshow(Iy,cmap='gray')
+plt.title('Y-derivative')
+plt.axis('off')
+plt.show()
+
+
+gv = np.array([Ix[5,3],Iy[5,3]])
+
+Derivative of Gaussian
+
+def Gx(s,sigma):
+    maxX = s//2
+    minX = -maxX
+    minY = minX
+    maxY = maxX
+    Gx = np.zeros((s,s))
+    for x in range(minX,maxX+1):
+        for y in range(minY,maxY+1):
+            v = (-x/(2*np.pi*(sigma**4)))*np.exp(-(x**2 + y**2)/(2*(sigma**2)))
+            Gx[x-minX,y-minY] = v
+    return Gx
+
+def Gy(s,sigma):
+    maxX = s//2
+    minX = -maxX
+    minY = minX
+    maxY = maxX
+    Gy = np.zeros((s,s))
+    for x in range(minX,maxX+1):
+        for y in range(minY,maxY+1):
+            v = (-y/(2*np.pi*(sigma**4)))*np.exp(-(x**2 + y**2)/(2*(sigma**2)))
+            Gy[x-minX,y-minY] = v
+    return Gy
+
+gx = Gx(3,0.5)
+gy = Gy(3,0.5)
+
+Ix = cv2.filter2D(img,-1,gx)
+Iy = cv2.filter2D(img,-1,gy)
+
+plt.subplot(121)
+plt.imshow(Ix,cmap='gray')
+plt.title('X-derivative')
+plt.axis('off')
+plt.subplot(122)
+plt.imshow(Iy,cmap='gray')
+plt.title('Y-derivative')
+plt.axis('off')
+plt.show()
+
+Gm = (Ix**2 + Iy**2)**0.5
+Gd = np.rad2deg(np.arctan2(Iy,Ix))
+
+Gd.min(),Gd.max()
+
+Gm = Gm.astype('float32')
+Gd = Gd.astype('float32')
+
+Gm = np.clip(Gm, 0, 1) if Gm.dtype == 'float' else np.clip(Gm, 0, 255)
+Gd = np.clip(Gd, 0, 1) if Gd.dtype == 'float' else np.clip(Gd, 0, 255)
+
+Gm = Gm[:, :, 0] if Gm.ndim == 3 else Gm
+Gd = Gd[:, :, 0] if Gd.ndim == 3 else Gd
+
+plt.subplot(121)
+plt.imshow(Gm,cmap='gray')
+plt.title('GM')
+plt.axis('off')
+plt.subplot(122)
+plt.imshow(Gd,cmap='gray')
+plt.title('Gd')
+plt.axis('off')
+plt.show()
+
+plt.imshow(Gm>30,cmap='gray')
+
+plt.hist(Gd.flatten())
+
+bins = np.array([-180.,-135.,-90.,-45.,0.,45.,90.,135.,180.])
+inds = np.digitize(Gd,bins)-1
+Gd_bin = bins[inds.flatten()].reshape(Gd.shape)
+
+i,j = 10,100
+Gd[i,j],Gd_bin[i,j]
+
+A = np.array([180.,134.,179.,135,-33.,-180.])
+inds = np.digitize(A,bins)-1
+
+bins[inds]
+
+A = np.array([180.,134.,179.,135,-33.,-180.,12,-12,-170])
+A_bin = 45*(np.round(A/45))
+
+Gd_bin = 45*(np.round(Gd/45))
+
+i,j = 12,100
+Gd[i,j],Gd_bin[i,j]
+
+def NMS(Gm,Gd):
+    Gd_bin = 45*(np.round(Gd/45))
+    Gm_NMS = np.zeros(Gm.shape)
+    numRows,numCols = Gm.shape[0],Gm.shape[1]
+    a,b=0.,0.
+    for r in range(1,numRows-1):
+        for c in range(1,numCols-1):
+            ang = Gd_bin[r,c]
+            if ang == 180. or ang == -180. or ang == 0.0 or ang == -0.0:
+                a,b = Gm[r-1,c], Gm[r+1,c]
+            elif ang == 45. or ang == -135.:
+                a,b = Gm[r+1,c+1],Gm[r-1,c-1]
+            elif ang == 90. or ang == -90.:
+                a,b = Gm[r,c-1],Gm[r,c+1]
+            elif ang == 135. or ang == -45.:
+                a,b = Gm[r-1,c+1],Gm[r+1,c-1]
+            else:
+                print('Error')
+                return
+            if Gm[r,c] >= a and Gm[r,c] >= b:
+                Gm_NMS[r,c] = Gm[r,c]
+    return Gm_NMS
+
+Gm_NMS = NMS(Gm,Gd)
+
+plt.subplot(121)
+plt.imshow(Gm,cmap='gray')
+plt.title('GM')
+plt.axis('off')
+plt.subplot(122)
+plt.imshow(Gm_NMS,cmap='gray')
+plt.title('GM_NMS')
+plt.axis('off')
+plt.show()
+
+plt.imshow(Gm_NMS>50,cmap='gray')
+
+Hesterysis Thresholding
+
+from skimage import filters
+
+L = Gm_NMS.mean()
+H = L + Gm_NMS.std()
+E = filters.apply_hysteresis_threshold(Gm_NMS,L,H)
+
+
+plt.imshow(E,cmap='gray')
+
